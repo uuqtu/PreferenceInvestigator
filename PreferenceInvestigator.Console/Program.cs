@@ -10,6 +10,10 @@ namespace PreferenceInvestigator.Console
     {
         static void Main(string[] args)
         {
+            PreferencesFile preferences = new PreferencesFile();
+
+            PreferenceInvestigator.Model.Preferences investigator = new Model.Preferences();
+
         }
     }
 }

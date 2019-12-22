@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PreferenceInvestigator.Model
+namespace PreferenceInvestigator.Model.Interfaces
 {
-    public class PreferenceInvestigator
+    public interface IPreference
     {
+        object Object { get; }
     }
 }

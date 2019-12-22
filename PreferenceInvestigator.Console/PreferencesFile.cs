@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace PreferenceInvestigator.Console
 {
-    public class SettingsFile
+    public class PreferencesFile
     {
 
-        public SettingsFile()
+        public PreferencesFile()
         {
             StringTest = "Default-String";
             BooleanTest = true;
