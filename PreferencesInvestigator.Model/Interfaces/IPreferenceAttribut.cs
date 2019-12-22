@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PreferencesInvestigator.Model
+namespace PreferenceInvestigator.Model.Interfaces
 {
-    public class Class1
+    public interface IPreferenceAttribut
     {
     }
 }
