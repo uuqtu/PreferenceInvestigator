@@ -46,7 +46,14 @@
     <Compile Include="Interfaces\IPreferenceAttribut.cs" />
     <Compile Include="Interfaces\IPreferenceElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TypeAttributes\BooleanAttribut.cs" />
+    <Compile Include="TypeAttributes\BooleanAttribute.cs" />
+    <Compile Include="TypeAttributes\DoubleAttribute.cs" />
+    <Compile Include="TypeAttributes\EnumAttribute.cs" />
+    <Compile Include="TypeAttributes\IntegerAttribute.cs" />
+    <Compile Include="TypeAttributes\ListAttribute.cs" />
+    <Compile Include="TypeAttributes\PathAttribute.cs" />
+    <Compile Include="TypeAttributes\StringAttribute.cs" />
+    <Compile Include="TypeAttributes\UnsignedIntegerAttribute.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
