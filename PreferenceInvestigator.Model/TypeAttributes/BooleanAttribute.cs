@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace PreferenceInvestigator.Model.TypeAttributes
 {
-    public class BooleanAttribute : PreferenceAttribute
+    public class BooleanAttribute : PreferenceKindAttribute
     {
+        public override List<Type> SupportedTypes => new List<Type> { typeof(bool) };
     }
 }

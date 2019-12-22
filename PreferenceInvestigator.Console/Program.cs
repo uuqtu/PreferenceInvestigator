@@ -12,7 +12,7 @@ namespace PreferenceInvestigator.Console
         {
             PreferencesFile preferences = new PreferencesFile();
 
-            PreferenceInvestigator.Model.Preferences investigator = new Model.Preferences();
+            PreferenceInvestigator.Model.Preferences investigator = new Model.Preferences(preferences);
 
         }
     }

@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace PreferenceInvestigator.Model.TypeAttributes
 {
-    public class EnumAttribute : PreferenceAttribute
+    public class EnumAttribute : PreferenceKindAttribute
     {
+        public override List<Type> SupportedTypes => new List<Type> { typeof(Enum) };
     }
 }

@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace PreferenceInvestigator.Model.TypeAttributes
 {
-    public class UnsignedIntegerAttribute : PreferenceAttribute
+    public class UnsignedIntegerAttribute : PreferenceKindAttribute
     {
+        public override List<Type> SupportedTypes => new List<Type> { typeof(uint) };
     }
 }

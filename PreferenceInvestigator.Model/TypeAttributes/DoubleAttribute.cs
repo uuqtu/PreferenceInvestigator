@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace PreferenceInvestigator.Model.TypeAttributes
 {
-    public class DoubleAttribute : PreferenceAttribute
+    public class DoubleAttribute : PreferenceKindAttribute
     {
+        public override List<Type> SupportedTypes => new List<Type> { typeof(double) };
     }
 }

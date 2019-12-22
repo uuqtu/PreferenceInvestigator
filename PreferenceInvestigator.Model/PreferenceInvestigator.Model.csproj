@@ -44,10 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\PreferenceAttribute.cs" />
+    <Compile Include="Attributes\PreferenceKindAttribute.cs" />
     <Compile Include="Attributes\PreferenceElementAttribute.cs" />
     <Compile Include="Interfaces\IPreference.cs" />
-    <Compile Include="Interfaces\IPreferenceAttribut.cs" />
+    <Compile Include="Interfaces\IPreferenceKindAttribut.cs" />
     <Compile Include="Interfaces\IPreferenceElement.cs" />
     <Compile Include="Preference.cs" />
     <Compile Include="Preferences.cs" />
@@ -63,6 +63,7 @@
     <Compile Include="TypeAttributes\UnsignedIntegerAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Exceptions\" />
     <Folder Include="FileOperation\" />
   </ItemGroup>
   <ItemGroup>

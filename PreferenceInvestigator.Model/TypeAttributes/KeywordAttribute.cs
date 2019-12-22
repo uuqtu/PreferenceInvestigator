@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace PreferenceInvestigator.Model.TypeAttributes
 {
-    public class KeywordAttribute: PreferenceAttribute
+    public class KeywordAttribute: PreferenceKindAttribute
     {
+        public override List<Type> SupportedTypes => throw new NotImplementedException();
     }
 }

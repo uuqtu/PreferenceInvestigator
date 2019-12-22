@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace PreferenceInvestigator.Model.TypeAttributes
 {
-    public class PathAttribute : PreferenceAttribute
+    public class PathAttribute : PreferenceKindAttribute
     {
+        public override List<Type> SupportedTypes => throw new NotImplementedException();
     }
 }
