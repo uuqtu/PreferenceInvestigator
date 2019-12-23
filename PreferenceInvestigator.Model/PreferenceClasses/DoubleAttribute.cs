@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PreferenceInvestigator.Model.TypeAttributes
+namespace PreferenceInvestigator.Model.PreferenceClasses
 {
-    public class DoubleAttribute : PreferenceKindAttribute
+    public class DoubleAttribute : PreferenceTypeAttribute
     {
         public override List<Type> SupportedTypes => new List<Type> { typeof(double) };
     }

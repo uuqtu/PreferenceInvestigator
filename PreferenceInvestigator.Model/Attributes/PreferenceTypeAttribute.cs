@@ -1,5 +1,5 @@
 ﻿using PreferenceInvestigator.Model.Interfaces;
-using PreferenceInvestigator.Model.TypeAttributes;
+using PreferenceInvestigator.Model.PreferenceClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 namespace PreferenceInvestigator.Model.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public abstract class PreferenceKindAttribute : Attribute, IPreferenceKindAttribut
+    public abstract class PreferenceTypeAttribute : Attribute, IPreferenceType
     {
-        public PreferenceKindAttribute()
+        public PreferenceTypeAttribute()
         {
 
         }
@@ -33,7 +33,7 @@ namespace PreferenceInvestigator.Model.Attributes
         }
 
 
-        public static PreferenceKindAttribute GetStandardSettingsTypeAttribute(Type type)
+        public static PreferenceTypeAttribute TryGetPreferenceType(Type type)
         {
             if (type == typeof(string))
                 return new StringAttribute();

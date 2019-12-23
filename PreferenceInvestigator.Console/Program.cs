@@ -14,6 +14,8 @@ namespace PreferenceInvestigator.Console
 
             PreferenceInvestigator.Model.Preferences investigator = new Model.Preferences(preferences);
 
+            investigator.
+
         }
     }
 }

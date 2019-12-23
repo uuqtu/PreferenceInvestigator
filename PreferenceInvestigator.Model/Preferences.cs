@@ -9,18 +9,25 @@ namespace PreferenceInvestigator.Model
 {
     public class Preferences
     {
-        private List<KeyValuePair<string, Preference>> _preferences = new List<KeyValuePair<string, Preference>>();
+        private Dictionary<string, Preference> _preferences = new Dictionary<string, Preference>();
 
         public Preferences(params object[] rawpreferences)
         {
-            foreach (object obj in rawpreferences)
+            foreach (object rawPreference in rawpreferences)
             {
-                PropertyInfo[] properties = obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-                foreach (PropertyInfo property in properties)
+                PropertyInfo[] properties = rawPreference.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                
+                foreach (PropertyInfo propertyInfo in properties)
                 {
-                    Preference itemToAttatch;
-                    if (Preference.Investigate(property, obj, out itemToAttatch))
-                            _preferences.Add(new KeyValuePair<string, Preference>(itemToAttatch.Name, itemToAttatch));
+                    if (!propertyInfo.CanRead || !propertyInfo.CanWrite)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        if (Preference.TryInvestigate(propertyInfo, rawPreference, out var itemToAttatch))
+                            _preferences.Add(itemToAttatch.Name, itemToAttatch);
+                    }
                 }
             }
         }

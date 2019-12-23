@@ -1,5 +1,5 @@
 ﻿using PreferenceInvestigator.Model.Attributes;
-using PreferenceInvestigator.Model.TypeAttributes;
+using PreferenceInvestigator.Model.PreferenceClasses;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,26 +23,26 @@ namespace PreferenceInvestigator.Console
             SourceSelection = new List<string> { "Element1", "Element2", "Element3" };
         }
 
-        [PreferenceElement("String-Test", Category = "Test/String")]
+        [PreferenceCharacteristics("String-Test", Category = "Test/String")]
         public string StringTest { get; set; }
 
-        [PreferenceElement("Boolean-Test", Category = "Test/Boolean")]
+        [PreferenceCharacteristics("Boolean-Test", Category = "Test/Boolean")]
         public bool BooleanTest { get; set; }
 
-        [PreferenceElement("Path-Test", Category = "Test/Path")]
+        [PreferenceCharacteristics("Path-Test", Category = "Test/Path")]
         [PathAttribute()]
         public string FilePath { get; set; }
 
-        [PreferenceElement("Enum-Test", Category = "Test/Enum")]
+        [PreferenceCharacteristics("Enum-Test", Category = "Test/Enum")]
         public TestEnum EnumTest { get; set; }
 
-        [PreferenceElement("Double-Test", Category = "Test/Double")]
+        [PreferenceCharacteristics("Double-Test", Category = "Test/Double")]
         public double Double { get; set; }
 
-        [PreferenceElement("Int-Test", Category = "Test/Int")]
+        [PreferenceCharacteristics("Int-Test", Category = "Test/Int")]
         public int Int { get; set; }
 
-        [PreferenceElement("List-Test", Category = "Test/List")]
+        [PreferenceCharacteristics("List-Test", Category = "Test/List")]
         [ListAttribute()]
         public List<string> SourceSelection { get; set; }
     }

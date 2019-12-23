@@ -44,27 +44,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\PreferenceKindAttribute.cs" />
-    <Compile Include="Attributes\PreferenceElementAttribute.cs" />
+    <Compile Include="Attributes\PreferenceTypeAttribute.cs" />
+    <Compile Include="Attributes\PreferenceCharacteristicsAttribute.cs" />
+    <Compile Include="Attributes\PreferenceRelationAttribute.cs" />
     <Compile Include="Interfaces\IPreference.cs" />
-    <Compile Include="Interfaces\IPreferenceKindAttribut.cs" />
-    <Compile Include="Interfaces\IPreferenceElement.cs" />
+    <Compile Include="Interfaces\IPreferenceType.cs" />
+    <Compile Include="Interfaces\IPreferenceCharacteristics.cs" />
+    <Compile Include="Interfaces\IPreferenceRelation.cs" />
+    <Compile Include="Interfaces\IStorageMode.cs" />
     <Compile Include="Preference.cs" />
     <Compile Include="Preferences.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TypeAttributes\BooleanAttribute.cs" />
-    <Compile Include="TypeAttributes\DoubleAttribute.cs" />
-    <Compile Include="TypeAttributes\EnumAttribute.cs" />
-    <Compile Include="TypeAttributes\IntegerAttribute.cs" />
-    <Compile Include="TypeAttributes\KeywordAttribute.cs" />
-    <Compile Include="TypeAttributes\ListAttribute.cs" />
-    <Compile Include="TypeAttributes\PathAttribute.cs" />
-    <Compile Include="TypeAttributes\StringAttribute.cs" />
-    <Compile Include="TypeAttributes\UnsignedIntegerAttribute.cs" />
+    <Compile Include="PreferenceClasses\BooleanAttribute.cs" />
+    <Compile Include="PreferenceClasses\DoubleAttribute.cs" />
+    <Compile Include="PreferenceClasses\EnumAttribute.cs" />
+    <Compile Include="PreferenceClasses\IntegerAttribute.cs" />
+    <Compile Include="PreferenceClasses\KeywordAttribute.cs" />
+    <Compile Include="PreferenceClasses\ListAttribute.cs" />
+    <Compile Include="PreferenceClasses\PathAttribute.cs" />
+    <Compile Include="PreferenceClasses\StringAttribute.cs" />
+    <Compile Include="PreferenceClasses\UnsignedIntegerAttribute.cs" />
+    <Compile Include="Storage\SqLiteStorage.cs" />
+    <Compile Include="Storage\StorageBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Exceptions\" />
-    <Folder Include="FileOperation\" />
+    <Folder Include="Storage\SqLite\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

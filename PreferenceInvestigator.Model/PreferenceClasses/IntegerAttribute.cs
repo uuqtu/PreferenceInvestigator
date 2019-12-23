@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PreferenceInvestigator.Model.TypeAttributes
+namespace PreferenceInvestigator.Model.PreferenceClasses
 {
-    public class IntegerAttribute : PreferenceKindAttribute
+    public class IntegerAttribute : PreferenceTypeAttribute
     {
         public override List<Type> SupportedTypes => new List<Type> { typeof(int) };
     }

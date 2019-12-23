@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PreferenceInvestigator.Model.Interfaces
 {
-    public interface IPreferenceElement
+    public interface IPreferenceCaracteristic
     {
         /// <summary>
         /// Displayname of the Property

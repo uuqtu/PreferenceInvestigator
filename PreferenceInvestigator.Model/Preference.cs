@@ -22,11 +22,11 @@ namespace PreferenceInvestigator.Model
         private Assembly Assembly => _assembly;
         public string AssemblyFilePath => Assembly.Location;
 
-        private readonly PreferenceElementAttribute _preferenceElement;
-        public IPreferenceElement PreferenceElement => _preferenceElement;
+        private readonly PreferenceCharacteristicsAttribute _preferenceElement;
+        public IPreferenceCharacteristics PreferenceElement => _preferenceElement;
 
-        private readonly PreferenceKindAttribute _preferenceKind;
-        public IPreferenceKindAttribut PreferenceKind => _preferenceKind;
+        private readonly Attributes.PreferenceTypeAttribute _preferenceKind;
+        public IPreferenceType PreferenceKind => _preferenceKind;
 
 
         private string _namePrefix = string.Empty;
@@ -62,59 +62,72 @@ namespace PreferenceInvestigator.Model
         }
 
         #endregion
-        private Preference(Assembly assembly, PropertyInfo property, object obj,
-                          PreferenceElementAttribute entry, PreferenceKindAttribute type)
+        private Preference(object rawObj, PropertyInfo property,
+                          PreferenceCharacteristicsAttribute entry, PreferenceTypeAttribute type, PreferenceRelationAttribute relation)
         {
-            _assembly = assembly;
+            _assembly = property.Module.Assembly;
             _preferenceElement = entry;
             _preferenceKind = type;
             _propertyInfo = property;
-            _object = obj;           
+            _object = rawObj;           
         }
 
-        internal static bool Investigate(PropertyInfo property, object obj, out Preference itemToAttatch)
+        internal static bool TryInvestigate(PropertyInfo propertyInfo, object rawobj, out Preference itemToAttatch)
         {
+            PreferenceCharacteristicsAttribute characteristics = null;
+            PreferenceTypeAttribute type = null;
+            PreferenceRelationAttribute relation = null;
             itemToAttatch = null;
-            if (property == null) throw new ArgumentNullException("property");
-            if (obj == null) throw new ArgumentNullException("obj");
-
-            if (!property.CanRead || !property.CanWrite)
-                return false;
-
-            PreferenceElementAttribute preferenceElement = null;
-            PreferenceKindAttribute preferenceKind = null;
-
-            var customAttributes = Attribute.GetCustomAttributes(property).ToList();
+            
+            var customAttributes = Attribute.GetCustomAttributes(propertyInfo).ToList();
             foreach (Attribute customAttribute in customAttributes)
             {
-                if (customAttribute is IPreferenceElement)
-                {
-                    if (preferenceElement == null)
-                        preferenceElement = (PreferenceElementAttribute)customAttribute;
-                    else
-                        throw new Exception("Unerlaubter Mehrfach-Eintrag des SettingsEntry-Attributes");
-                }
-                else if (customAttribute is PreferenceKindAttribute)
-                {
-                    if (preferenceKind == null)
-                        preferenceKind = (PreferenceKindAttribute)customAttribute;
-                    else
-                        throw new Exception("Unerlaubter Mehrfach-Eintrag des SettingsType-Attributes");
-                }
+                DetermineAttributeType(ref characteristics, ref type, ref relation, customAttribute);
             }
 
-            if (preferenceKind == null)
-                return false;   //Keine Exception schmeissen. Dies ist eine Property, die nicht aufgenommen werden soll
-
-            if (preferenceKind == null)   //versuchen, Type aus property.Type zu generieren
-                preferenceKind = PreferenceKindAttribute.GetStandardSettingsTypeAttribute(property.PropertyType);
-            if (preferenceKind == null)   //wenn immernoch null --> Fehler
+            //If the property has no characteristics it is not to be added.
+            if (characteristics == null)
+                return false;   
+            //Try to get the Preference from the PropertyType
+            if (type == null)   
+                type = PreferenceTypeAttribute.TryGetPreferenceType(propertyInfo.PropertyType);
+            //
+            if (type == null) 
                 throw new Exception("Es wurde kein SettingsType-Attribut angegeben");
-            if (!preferenceKind.SupportedType(property.PropertyType))
-                throw new Exception("Das verwendete SettingsType-Attribut (" + preferenceKind.GetType().Name + ") ist nicht mit dem Typ der Eigenschaft (" + property.PropertyType + ") kompatibel");
 
-            itemToAttatch = new Preference(property.Module.Assembly, property, obj, preferenceElement, preferenceKind);
+            if (!type.SupportedType(propertyInfo.PropertyType))
+                throw new Exception("Das verwendete SettingsType-Attribut (" + type.GetType().Name + ") ist nicht mit dem Typ der Eigenschaft (" + propertyInfo.PropertyType + ") kompatibel");
+
+            itemToAttatch = new Preference(rawobj, propertyInfo, characteristics, type, relation);
             return true;
+        }
+
+        private static void DetermineAttributeType(ref PreferenceCharacteristicsAttribute characteristics, 
+                                                   ref PreferenceTypeAttribute type,
+                                                   ref PreferenceRelationAttribute relation, 
+                                                   Attribute customAttribute)
+        {
+            if (customAttribute is IPreferenceCharacteristics)
+            {
+                if (@characteristics == null)
+                    @characteristics = (PreferenceCharacteristicsAttribute)customAttribute;
+                else
+                    throw new Exception("Unerlaubter Mehrfach-Eintrag des SettingsEntry-Attributes");
+            }
+            else if (customAttribute is PreferenceTypeAttribute)
+            {
+                if (@type == null)
+                    @type = (PreferenceTypeAttribute)customAttribute;
+                else
+                    throw new Exception("Unerlaubter Mehrfach-Eintrag des SettingsType-Attributes");
+            }
+            else if (customAttribute == null)
+            {
+                if (@relation == null)
+                    @relation = (PreferenceRelationAttribute)customAttribute;
+                else
+                    throw new Exception("Unerlaubter Mehrfach-Eintrag des SettingsType-Attributes");
+            }
         }
     }
 }

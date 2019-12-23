@@ -9,7 +9,7 @@ using System.IO;
 namespace PreferenceInvestigator.Model.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public class PreferenceElementAttribute : Attribute, IPreferenceElement
+    public class PreferenceCharacteristicsAttribute : Attribute, IPreferenceCharacteristics
     {
         private string _title;
         private int _displayIndex;
@@ -19,7 +19,7 @@ namespace PreferenceInvestigator.Model.Attributes
 
         public List<string> CategoryTree => _category?.Split(Path.DirectorySeparatorChar).ToList();
 
-        public PreferenceElementAttribute(string title)
+        public PreferenceCharacteristicsAttribute(string title)
         {
             DisplayName = title;
             DisplayIndex = 0;
