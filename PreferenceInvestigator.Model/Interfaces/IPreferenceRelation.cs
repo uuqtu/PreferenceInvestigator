@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PreferenceInvestigator.Model.Interfaces
 {
-    interface IPreferenceRelation
+    public interface IPreferenceRelation
     {
     }
 }

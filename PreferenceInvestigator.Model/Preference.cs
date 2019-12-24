@@ -22,12 +22,14 @@ namespace PreferenceInvestigator.Model
         private Assembly Assembly => _assembly;
         public string AssemblyFilePath => Assembly.Location;
 
-        private readonly PreferenceCharacteristicsAttribute _preferenceElement;
-        public IPreferenceCharacteristics PreferenceElement => _preferenceElement;
+        private readonly PreferenceCharacteristicsAttribute _preferenceCharasteristice;
+        public IPreferenceCharacteristics PreferenceCharacteristics => _preferenceCharasteristice;
 
-        private readonly Attributes.PreferenceTypeAttribute _preferenceKind;
-        public IPreferenceType PreferenceKind => _preferenceKind;
+        private readonly PreferenceTypeAttribute _preferenceType;
+        public IPreferenceType PreferenceType => _preferenceType;
 
+        public readonly PreferenceRelationAttribute _relation;
+        public IPreferenceRelation Relation => _relation;
 
         private string _namePrefix = string.Empty;
         public string NamePrefix => _namePrefix;
@@ -66,10 +68,10 @@ namespace PreferenceInvestigator.Model
                           PreferenceCharacteristicsAttribute entry, PreferenceTypeAttribute type, PreferenceRelationAttribute relation)
         {
             _assembly = property.Module.Assembly;
-            _preferenceElement = entry;
-            _preferenceKind = type;
+            _preferenceCharasteristice = entry;
+            _preferenceType = type;
             _propertyInfo = property;
-            _object = rawObj;           
+            _object = rawObj;
         }
 
         internal static bool TryInvestigate(PropertyInfo propertyInfo, object rawobj, out Preference itemToAttatch)
@@ -78,7 +80,7 @@ namespace PreferenceInvestigator.Model
             PreferenceTypeAttribute type = null;
             PreferenceRelationAttribute relation = null;
             itemToAttatch = null;
-            
+
             var customAttributes = Attribute.GetCustomAttributes(propertyInfo).ToList();
             foreach (Attribute customAttribute in customAttributes)
             {
@@ -87,12 +89,12 @@ namespace PreferenceInvestigator.Model
 
             //If the property has no characteristics it is not to be added.
             if (characteristics == null)
-                return false;   
+                return false;
             //Try to get the Preference from the PropertyType
-            if (type == null)   
+            if (type == null)
                 type = PreferenceTypeAttribute.TryGetPreferenceType(propertyInfo.PropertyType);
             //
-            if (type == null) 
+            if (type == null)
                 throw new Exception("Es wurde kein SettingsType-Attribut angegeben");
 
             if (!type.SupportedType(propertyInfo.PropertyType))
@@ -102,9 +104,9 @@ namespace PreferenceInvestigator.Model
             return true;
         }
 
-        private static void DetermineAttributeType(ref PreferenceCharacteristicsAttribute characteristics, 
+        private static void DetermineAttributeType(ref PreferenceCharacteristicsAttribute characteristics,
                                                    ref PreferenceTypeAttribute type,
-                                                   ref PreferenceRelationAttribute relation, 
+                                                   ref PreferenceRelationAttribute relation,
                                                    Attribute customAttribute)
         {
             if (customAttribute is IPreferenceCharacteristics)
