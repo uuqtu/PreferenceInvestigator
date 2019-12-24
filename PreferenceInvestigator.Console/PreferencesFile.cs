@@ -25,17 +25,21 @@ namespace PreferenceInvestigator.Console
 
         [PreferenceCharacteristics("String-Test", Category = "Test/String")]
         [PreferenceTypeAttribute(typeof(string))]
+        [PreferenceRelation]
         public string StringTest { get; set; }
 
         [PreferenceCharacteristics("Boolean-Test", Category = "Test/Boolean")]
+        [PreferenceRelation]
         public bool BooleanTest { get; set; }
 
         [PreferenceCharacteristics("Path-Test", Category = "Test/Path")]
         [PreferenceType(CustomTypes.Path)]
+        [PreferenceRelation]
         public string FilePath { get; set; }
 
         [PreferenceCharacteristics("Enum-Test", Category = "Test/Enum")]
         [PreferenceTypeAttribute(typeof(Enum))]
+        [PreferenceRelation]
         public TestEnum EnumTest { get; set; }
 
         [PreferenceCharacteristics("Double-Test", Category = "Test/Double")]
@@ -46,6 +50,7 @@ namespace PreferenceInvestigator.Console
 
         [PreferenceCharacteristics("List-Test", Category = "Test/List")]
         [PreferenceType(typeof(List<string>))]
+        [PreferenceRelation]
         public List<string> SourceSelection { get; set; }
     }
 

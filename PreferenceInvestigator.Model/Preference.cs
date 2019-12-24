@@ -1,4 +1,5 @@
 ﻿using PreferenceInvestigator.Model.Attributes;
+using PreferenceInvestigator.Model.Exceptions;
 using PreferenceInvestigator.Model.Interfaces;
 using PreferenceInvestigator.Model.PreferenceClasses;
 using System;
@@ -81,8 +82,9 @@ namespace PreferenceInvestigator.Model
             PreferenceTypeAttribute type = null;
             PreferenceRelationAttribute relation = null;
             itemToAttatch = null;
-
+            //Get the custom prperties of the the property
             var customAttributes = Attribute.GetCustomAttributes(propertyInfo).ToList();
+
             foreach (Attribute customAttribute in customAttributes)
             {
                 DetermineAttributeType(ref characteristics, ref type, ref relation, customAttribute);
@@ -96,10 +98,12 @@ namespace PreferenceInvestigator.Model
                 type = PreferenceTypeAttribute.TryGetPreferenceType(propertyInfo.PropertyType);
             //
             if (type == null)
-                throw new Exception("Es wurde kein SettingsType-Attribut angegeben");
+                throw new PreferenceInvestigationException("There is no PreferenceTypeAttribute given for this Preference.", rawobj, propertyInfo);
 
             if (!PreferenceTypeAttribute.IsSupportedType(propertyInfo.PropertyType))
-                throw new Exception("Das verwendete SettingsType-Attribut (" + type.GetType().Name + ") ist nicht mit dem Typ der Eigenschaft (" + propertyInfo.PropertyType + ") kompatibel");
+                throw new PreferenceInvestigationException("The used PreferenceTypeAttribute (" + type.GetType().Name + ") " +
+                                                           "can not be used with with the type (" + propertyInfo.PropertyType + ").",
+                                                           rawobj, propertyInfo);
 
             itemToAttatch = new Preference(rawobj, propertyInfo, characteristics, type, relation);
             return true;
@@ -115,21 +119,21 @@ namespace PreferenceInvestigator.Model
                 if (@characteristics == null)
                     @characteristics = (PreferenceCharacteristicsAttribute)customAttribute;
                 else
-                    throw new Exception("Unerlaubter Mehrfach-Eintrag des SettingsEntry-Attributes");
+                    throw new PreferenceAttributeParseException("Unerlaubter Mehrfach-Eintrag des SettingsEntry-Attributes", @characteristics);
             }
             else if (customAttribute is PreferenceTypeAttribute)
             {
                 if (@type == null)
                     @type = (PreferenceTypeAttribute)customAttribute;
                 else
-                    throw new Exception("Unerlaubter Mehrfach-Eintrag des SettingsType-Attributes");
+                    throw new PreferenceAttributeParseException("Unerlaubter Mehrfach-Eintrag des SettingsType-Attributes", @type);
             }
             else if (customAttribute == null)
             {
                 if (@relation == null)
                     @relation = (PreferenceRelationAttribute)customAttribute;
                 else
-                    throw new Exception("Unerlaubter Mehrfach-Eintrag des SettingsType-Attributes");
+                    throw new PreferenceAttributeParseException("Unerlaubter Mehrfach-Eintrag des SettingsType-Attributes", @relation);
             }
         }
     }
