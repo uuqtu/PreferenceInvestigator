@@ -28,10 +28,9 @@ namespace PreferenceInvestigator.Model
                     {
                         continue;
                     }
-                    else
+                    else if (Preference.TryInvestigate(propertyInfo, rawPreference, out var itemToAttatch))
                     {
-                        if (Preference.TryInvestigate(propertyInfo, rawPreference, out var itemToAttatch))
-                            _preferences.Add(itemToAttatch.Name, itemToAttatch);
+                        _preferences.Add(itemToAttatch.Name, itemToAttatch);
                     }
                 }
             }
