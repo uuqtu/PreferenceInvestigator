@@ -11,55 +11,59 @@ namespace PreferenceInvestigator.Model.Storage
 {
     public class StorageConfig : IStorageConfig
     {
+        #region private Variables
         private FileTypes _fileType;
+        private StorageMode _storageMode;
+        private bool _throwOnSaveException;
+        private string _baseDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory);
+        private bool _throwOnReadIoException;
+        private bool _throwOnReadException;
+        private bool _abortOnReadException;
+        private bool _createSubDirectoryForPreferences;
+        private string _subDirectory;
+        private string _machineUniqueIdentifier;
+        #endregion
+        #region public Variables
         public FileTypes FileType
         {
             get => _fileType;
             private set => _fileType = value;
         }
-        private StorageMode _storageMode;
         public StorageMode StorageMode
         {
             get => _storageMode;
             private set => _storageMode = value;
         }
-        private bool _throwOnSaveException;
         public bool ThrowOnSaveException
         {
             get => _throwOnSaveException;
             set => _throwOnSaveException = value;
         }
-        private string _baseDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory);
         public string BaseDirectory
         {
             get => _baseDirectory;
             set => _baseDirectory = value;
         }
-        private bool _throwOnReadIoException;
         public bool ThrowOnReadIoException
         {
             get => _throwOnReadIoException;
             set => _throwOnReadIoException = value;
         }
-        private bool _throwOnReadException;
         public bool ThrowOnReadException
         {
             get => _throwOnReadException;
             set => _throwOnReadException = value;
         }
-        private bool _abortOnReadException;
         public bool AbortOnReadException
         {
             get => _abortOnReadException;
             set => _abortOnReadException = value;
         }
-        private bool _createSubDirectoryForPreferences;
         public bool CreateSubDirectoryForPreferences
         {
             get => _createSubDirectoryForPreferences;
             set => _createSubDirectoryForPreferences = value;
         }
-        private string _subDirectory;
         public string SubDirectory
         {
             get => _subDirectory;
@@ -71,12 +75,12 @@ namespace PreferenceInvestigator.Model.Storage
             get => _preferencesBaseName;
             internal set => _preferencesBaseName = value;
         }
-        private string _machineUniqueIdentifier;
         public string MachineUniqueIdentifier
         {
             get => new DeviceIdBuilder().AddProcessorId().AddMotherboardSerialNumber().ToString();
         }
-
+        #endregion
+        #region c'tor
         public StorageConfig(string baseName, FileTypes fileType, StorageMode mode)
         {
             PreferencesBaseName = baseName;
@@ -91,7 +95,6 @@ namespace PreferenceInvestigator.Model.Storage
             FileType = fileType;
             StorageMode = mode;
         }
-
-
+        #endregion
     }
 }

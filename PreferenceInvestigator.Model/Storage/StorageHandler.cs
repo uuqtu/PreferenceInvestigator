@@ -10,14 +10,16 @@ namespace PreferenceInvestigator.Model.Storage
 {
     public class StorageHandler : IStorageHandler
     {
-        #region Fields
+        #region private Variables
         private IStorageConfig _handlerConfig;
+        private IStorageImplementation _storageImplementation;
+        #endregion
+        #region public Variables
         public IStorageConfig HandlerConfig
         {
             get => _handlerConfig;
             private set => _handlerConfig = value;
         }
-        private IStorageImplementation _storageImplementation;
         public IStorageImplementation StorageImplementation
         {
             get => _storageImplementation;
@@ -30,8 +32,6 @@ namespace PreferenceInvestigator.Model.Storage
             HandlerConfig = cfg;
             EvaluateInstanciation();
         }
-        #endregion
-
         private void EvaluateInstanciation()
         {
             switch (HandlerConfig.FileType)
@@ -47,7 +47,8 @@ namespace PreferenceInvestigator.Model.Storage
                     break;
             }
         }
-
+        #endregion
+        #region Save and Load Methods
         public bool Save(Dictionary<string, Preference> _preferences)
         {
             switch (HandlerConfig.StorageMode)
@@ -78,5 +79,6 @@ namespace PreferenceInvestigator.Model.Storage
             }
             return null;
         }
+        #endregion
     }
 }

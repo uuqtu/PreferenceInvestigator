@@ -52,6 +52,11 @@
   <ItemGroup>
     <Compile Include="Attributes\PreferenceCharacteristicsAttribute.cs" />
     <Compile Include="Attributes\PreferenceRelationAttribute.cs" />
+    <Compile Include="Exceptions\PreferenceCharacteristicDecorationException.cs" />
+    <Compile Include="Exceptions\PreferenceLoadException.cs" />
+    <Compile Include="Exceptions\PreferenceParseException.cs" />
+    <Compile Include="Exceptions\PreferenceRelationDecorationException.cs" />
+    <Compile Include="Exceptions\PreferenceSaveException.cs" />
     <Compile Include="Exceptions\PreferenceTypeDecorationException.cs" />
     <Compile Include="Interfaces\IPreference.cs" />
     <Compile Include="Interfaces\IPreferenceType.cs" />
