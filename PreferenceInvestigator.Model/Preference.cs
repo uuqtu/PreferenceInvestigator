@@ -1,5 +1,6 @@
 ﻿using PreferenceInvestigator.Model.Attributes;
 using PreferenceInvestigator.Model.Interfaces;
+using PreferenceInvestigator.Model.PreferenceClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -97,7 +98,7 @@ namespace PreferenceInvestigator.Model
             if (type == null)
                 throw new Exception("Es wurde kein SettingsType-Attribut angegeben");
 
-            if (!type.SupportedType(propertyInfo.PropertyType))
+            if (!PreferenceTypeAttribute.IsSupportedType(propertyInfo.PropertyType))
                 throw new Exception("Das verwendete SettingsType-Attribut (" + type.GetType().Name + ") ist nicht mit dem Typ der Eigenschaft (" + propertyInfo.PropertyType + ") kompatibel");
 
             itemToAttatch = new Preference(rawobj, propertyInfo, characteristics, type, relation);

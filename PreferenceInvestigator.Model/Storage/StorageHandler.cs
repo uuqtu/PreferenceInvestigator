@@ -10,6 +10,7 @@ namespace PreferenceInvestigator.Model.Storage
 {
     public class StorageHandler : IStorageHandler
     {
+        #region Fields
         private IStorageConfig _handlerConfig;
         public IStorageConfig HandlerConfig
         {
@@ -22,23 +23,26 @@ namespace PreferenceInvestigator.Model.Storage
             get => _storageImplementation;
             private set => _storageImplementation = value;
         }
+        #endregion
+        #region c'tor
         public StorageHandler(IStorageConfig cfg)
         {
             HandlerConfig = cfg;
             EvaluateInstanciation();
         }
+        #endregion
 
         private void EvaluateInstanciation()
         {
             switch (HandlerConfig.FileType)
             {
-                case FileTypes.Ini:
+                case FileTypes.ini:
                     StorageImplementation = new IniStorage(HandlerConfig);
                     break;
-                case FileTypes.SqLite:
+                case FileTypes.sqlite:
                     StorageImplementation = new SqLiteStorage(HandlerConfig);
                     break;
-                case FileTypes.Xml:
+                case FileTypes.xml:
                     StorageImplementation = new XmlStorage(HandlerConfig);
                     break;
             }
@@ -52,8 +56,8 @@ namespace PreferenceInvestigator.Model.Storage
                     return StorageImplementation.SafeAssemblywise(_preferences,
                                                                   HandlerConfig.ThrowOnSaveException);
                 case StorageMode.SingleFile:
-                    return StorageImplementation.SafeSingleFile(_preferences, 
-                                                                HandlerConfig.FilePath,
+                    return StorageImplementation.SafeSingleFile(_preferences,
+                                                                HandlerConfig.BaseDirectory,
                                                                 HandlerConfig.ThrowOnSaveException);
             }
             return false;
@@ -67,7 +71,7 @@ namespace PreferenceInvestigator.Model.Storage
                                                                   HandlerConfig.ThrowOnReadException,
                                                                   HandlerConfig.AbortOnReadException);
                 case StorageMode.SingleFile:
-                    return StorageImplementation.LoadSingleFile(HandlerConfig.FilePath,
+                    return StorageImplementation.LoadSingleFile(HandlerConfig.BaseDirectory,
                                                                 HandlerConfig.ThrowOnReadIoException,
                                                                 HandlerConfig.ThrowOnReadException,
                                                                 HandlerConfig.AbortOnReadException);

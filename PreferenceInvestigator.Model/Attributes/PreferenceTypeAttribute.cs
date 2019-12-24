@@ -1,53 +1,119 @@
-﻿using PreferenceInvestigator.Model.Interfaces;
-using PreferenceInvestigator.Model.PreferenceClasses;
+﻿using PreferenceInvestigator.Model.Exceptions;
+using PreferenceInvestigator.Model.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PreferenceInvestigator.Model.Attributes
+namespace PreferenceInvestigator.Model.PreferenceClasses
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public abstract class PreferenceTypeAttribute : Attribute, IPreferenceType
+    public class PreferenceTypeAttribute : Attribute, IPreferenceType
     {
-        public PreferenceTypeAttribute()
+        /// <summary>
+        /// This Static Variable contains all supported Types
+        /// </summary>
+        private static List<Type> SupporteeTypes = new List<Type>()
         {
+            typeof(string),
+            typeof(int),
+            typeof(double),
+            typeof(Enum),
+            typeof(bool),
+            typeof(List<string>),
+        };
 
+
+
+        private Type _attributedType;
+        public Type AttributedType
+        {
+            get => _attributedType;
+            set => _attributedType = value;
+        }
+        public PreferenceTypeAttribute(Type preferenceEntryType)
+        {
+            if (preferenceEntryType == typeof(string))
+            {
+                AttributedType = typeof(string);
+                return;
+            }
+            if (preferenceEntryType == typeof(int))
+            {
+                AttributedType = typeof(int);
+                return;
+            }
+            if (preferenceEntryType == typeof(double))
+            {
+                AttributedType = typeof(double);
+                return;
+            }
+            if (preferenceEntryType == typeof(Enum))
+            {
+                AttributedType = typeof(Enum);
+                return;
+            }
+            if (preferenceEntryType == typeof(bool))
+            {
+                AttributedType = typeof(bool);
+                return;
+            }
+            if (preferenceEntryType == typeof(List<string>))
+            {
+                AttributedType = typeof(List<string>);
+                return;
+            }
+            throw new PreferenceTypeDecorationException();
         }
 
-        public abstract List<Type> SupportedTypes { get; }
-
-
-        public bool SupportedType(Type propertyType)
+        public PreferenceTypeAttribute(CustomTypes preferenceEntryType)
         {
-            if (propertyType == null) throw new ArgumentNullException("propertyType");
+            if (preferenceEntryType == CustomTypes.Path)
+            {
+                AttributedType = typeof(string);
+                return;
+            }
 
-            foreach (Type t in SupportedTypes)
+            throw new PreferenceTypeDecorationException();
+        }
+
+        public static bool IsSupportedType(Type t)
+        {
+            if (t == null) throw new ArgumentNullException("propertyType");
+
+            foreach (Type supporteeType in SupporteeTypes)
             {
                 //if (t.IsAssignableFrom(propertyType)
-                if (propertyType.Equals(t) || propertyType.IsSubclassOf(t))
+                if (supporteeType.Equals(t) || supporteeType.IsSubclassOf(t))
+                    return true;
+                if (t.BaseType == supporteeType)
                     return true;
             }
             return false;
         }
 
-
-        public static PreferenceTypeAttribute TryGetPreferenceType(Type type)
+        internal static PreferenceTypeAttribute TryGetPreferenceType(Type propertyType)
         {
-            if (type == typeof(string))
-                return new StringAttribute();
-            if (type == typeof(int))
-                return new IntegerAttribute();
-            if (type == typeof(double))
-                return new DoubleAttribute();
-            if (type.IsSubclassOf(typeof(System.Enum)))
-                return new EnumAttribute();
-            if (type == typeof(bool))
-                return new BooleanAttribute();
+            if (propertyType == typeof(string))
+                return new PreferenceTypeAttribute(typeof(string));
+            if (propertyType == typeof(int))
+                return new PreferenceTypeAttribute(typeof(int));
+            if (propertyType == typeof(double))
+                return new PreferenceTypeAttribute(typeof(double));
+            if (propertyType.IsSubclassOf(typeof(Enum)))
+                return new PreferenceTypeAttribute(typeof(Enum));
+            if (propertyType == typeof(bool))
+                return new PreferenceTypeAttribute(typeof(bool)); ;
             return null;
         }
+    }
 
+
+    public enum CustomTypes
+    {
+        Path,
+        Password,
 
     }
 }

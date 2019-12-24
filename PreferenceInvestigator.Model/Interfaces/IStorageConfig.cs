@@ -15,17 +15,21 @@ namespace PreferenceInvestigator.Model.Interfaces
         /// String.Empty, wenn einzelne Files verwendet werden sollen.
         /// Andernfalls wird ein Default Wert verwendet.
         /// </summary>
-        string FilePath { get; set; }
+        string BaseDirectory { get; set; }
         bool ThrowOnReadIoException { get; set; }
         bool ThrowOnReadException { get; set; }
         bool AbortOnReadException { get; set; }
+        bool CreateSubDirectoryForPreferences { get; set; }
+        string SubDirectory { get; set; }
+        string PreferencesBaseName { get;  }
+        string MachineUniqueIdentifier { get; }
     }
 
     public enum FileTypes
     {
-        SqLite,
-        Xml,
-        Ini
+        sqlite,
+        xml,
+        ini
     }
 
     public enum StorageMode

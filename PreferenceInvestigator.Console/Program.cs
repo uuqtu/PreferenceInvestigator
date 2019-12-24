@@ -16,15 +16,18 @@ namespace PreferenceInvestigator.Console
         {
             PreferencesFile preferences = new PreferencesFile();
 
-            IStorageConfig cfg = new StorageConfig(FileTypes.Xml, StorageMode.AssemblyWise)
+            IStorageConfig cfg = new StorageConfig("Settings", FileTypes.xml, StorageMode.AssemblyWise)
             {
                 AbortOnReadException = true,
-                FilePath = "",
+                BaseDirectory = "",
                 //FileType = FileTypes.Ini,
                 //StorageMode = StorageMode.AssemblyWise,
                 ThrowOnReadException = true,
                 ThrowOnReadIoException = true,
                 ThrowOnSaveException = true,
+                CreateSubDirectoryForPreferences = true,
+                SubDirectory = "Settings",
+                
             };
             IStorageHandler hndlr = new StorageHandler(cfg);
 

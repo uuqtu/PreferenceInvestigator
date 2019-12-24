@@ -1,4 +1,5 @@
-﻿using PreferenceInvestigator.Model.Interfaces;
+﻿using DeviceId;
+using PreferenceInvestigator.Model.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PreferenceInvestigator.Model.PreferenceClasses
+namespace PreferenceInvestigator.Model.Storage
 {
     public class StorageConfig : IStorageConfig
     {
@@ -28,11 +29,11 @@ namespace PreferenceInvestigator.Model.PreferenceClasses
             get => _throwOnSaveException;
             set => _throwOnSaveException = value;
         }
-        private string _filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Settings");
-        public string FilePath
+        private string _baseDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory);
+        public string BaseDirectory
         {
-            get => _filePath;
-            set => _filePath = value;
+            get => _baseDirectory;
+            set => _baseDirectory = value;
         }
         private bool _throwOnReadIoException;
         public bool ThrowOnReadIoException
@@ -52,16 +53,41 @@ namespace PreferenceInvestigator.Model.PreferenceClasses
             get => _abortOnReadException;
             set => _abortOnReadException = value;
         }
-
-        public StorageConfig(FileTypes fileType, StorageMode mode)
+        private bool _createSubDirectoryForPreferences;
+        public bool CreateSubDirectoryForPreferences
         {
+            get => _createSubDirectoryForPreferences;
+            set => _createSubDirectoryForPreferences = value;
+        }
+        private string _subDirectory;
+        public string SubDirectory
+        {
+            get => _subDirectory;
+            set => _subDirectory = value;
+        }
+        private string _preferencesBaseName;
+        public string PreferencesBaseName
+        {
+            get => _preferencesBaseName;
+            internal set => _preferencesBaseName = value;
+        }
+        private string _machineUniqueIdentifier;
+        public string MachineUniqueIdentifier
+        {
+            get => new DeviceIdBuilder().AddProcessorId().AddMotherboardSerialNumber().ToString();
+        }
+
+        public StorageConfig(string baseName, FileTypes fileType, StorageMode mode)
+        {
+            PreferencesBaseName = baseName;
             FileType = fileType;
             StorageMode = mode;
         }
 
-        public StorageConfig(string path, FileTypes fileType, StorageMode mode)
+        public StorageConfig(string baseName, string path, FileTypes fileType, StorageMode mode)
         {
-            FilePath = path;
+            PreferencesBaseName = baseName;
+            BaseDirectory = path;
             FileType = fileType;
             StorageMode = mode;
         }
