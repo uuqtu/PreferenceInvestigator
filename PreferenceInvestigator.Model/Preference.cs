@@ -15,31 +15,27 @@ namespace PreferenceInvestigator.Model
     {
         #region Fields
         private readonly PropertyInfo _propertyInfo = null;
-        private PropertyInfo PropertyInfo => _propertyInfo;
-
         private readonly object _object = null;
-        public object Object => _object;
-
         private readonly Assembly _assembly = null;
+        public readonly PreferenceRelationAttribute _relation;
+        private readonly PreferenceCharacteristicsAttribute _preferenceCharasteristice;
+        private readonly PreferenceTypeAttribute _preferenceType;
+        private string _namePrefix = string.Empty;
+        private readonly string _nameAppendix = null;
+
+        private PropertyInfo PropertyInfo => _propertyInfo;
+        public object Object => _object;
         private Assembly Assembly => _assembly;
         public string AssemblyFilePath => Assembly.Location;
-
-        private readonly PreferenceCharacteristicsAttribute _preferenceCharasteristice;
         public IPreferenceCharacteristics PreferenceCharacteristics => _preferenceCharasteristice;
-
-        private readonly PreferenceTypeAttribute _preferenceType;
         public IPreferenceType PreferenceType => _preferenceType;
-
-        public readonly PreferenceRelationAttribute _relation;
         public IPreferenceRelation Relation => _relation;
-
-        private string _namePrefix = string.Empty;
         public string NamePrefix => _namePrefix;
 
-        private readonly string _NameAppendix = null;
+
         private string NameAppendix
         {
-            get { return (_NameAppendix == null ? string.Empty : System.Type.Delimiter + _NameAppendix); }
+            get { return (_nameAppendix == null ? string.Empty : System.Type.Delimiter + _nameAppendix); }
         }
         public string Name => NamePrefix + Object.GetType().Namespace + System.Type.Delimiter + Object.GetType().Name + System.Type.Delimiter + PropertyInfo.Name + NameAppendix;
         public string ShortName
